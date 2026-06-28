@@ -1,0 +1,860 @@
+{
+  "name": "Shoprenter → BigQuery Product Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## IMPORTANT\n\n## NEVER EVER WRITE SHOPRENTER DATA.\n## ONLY AND ALWAYS USE GET METHOD",
+        "height": 256,
+        "width": 512,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1488,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "7ebe652a-8451-436e-b67e-1fff7baf6eca",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## BQ Schema\n\n[\n  {\n    \"name\": \"sr_product_id\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"inner_id\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"sku\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"product_name_hu\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"short_description_hu\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"long_description_hu\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"net_price\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"gross_price\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"currency_code\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"stock_1\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"stock_2\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"stock_3\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"stock_4\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"total_stock\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"manufacturer\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"primary_product_image\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"weight\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"width\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"height\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"length\",\n    \"mode\": \"\",\n    \"type\": \"NUMERIC\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"status\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"orderable_product\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"reduce_stock\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"measurement_unit_hu\",\n    \"mode\": \"\",\n    \"type\": \"STRING\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"date_created\",\n    \"mode\": \"\",\n    \"type\": \"TIMESTAMP\",\n    \"description\": \"\",\n    \"fields\": []\n  },\n  {\n    \"name\": \"date_updated\",\n    \"mode\": \"\",\n    \"type\": \"TIMESTAMP\",\n    \"description\": \"\",\n    \"fields\": []\n  }\n]",
+        "height": 480,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1488,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "3b1947f1-843f-4345-86e8-fb0fea61a3ed",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        64
+      ],
+      "id": "9f9f7a7a-1516-4482-ad67-5025192887ed",
+      "name": "Manual Trigger"
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT *\nFROM `bearings-hu-website.shoprenter.products_v2`\nWHERE sr_product_id = '122130';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        256,
+        -672
+      ],
+      "id": "8c3f5a6b-cde4-4b8c-ba29-cab59ca3d94f",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT\n  sr_product_id,\n  gross_price,\n  total_stock,\n  sync_status\nFROM `bearings-hu-website.shoprenter.products_v2`\nWHERE sr_product_id IN ('56586', '100761');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        -896
+      ],
+      "id": "08b0acd9-2381-46bb-b247-299e907fde54",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b99a1e0-a9f0-46fa-b3da-639919fb1150",
+              "name": "page",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        -640
+      ],
+      "id": "31921d98-203c-4987-965b-77eec73355df",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const products = items[0].json.items;\n\nconst syncRunId = `SYNC_${Date.now()}`;\nconst syncTime = new Date().toISOString();\n\nreturn products.map(p => {\n\n  const stock1 = parseFloat(p.stock1 || 0);\n  const stock2 = parseFloat(p.stock2 || 0);\n  const stock3 = parseFloat(p.stock3 || 0);\n  const stock4 = parseFloat(p.stock4 || 0);\n\n  return {\n    json: {\n\n      sr_product_id: String(p.id || \"\"),\n\n      inner_id: String(p.innerId || \"\"),\n\n      sku: String(p.sku || \"\"),\n\n      product_name_hu: String(p.sku || \"\"),\n\n      short_description_hu: \"\",\n\n      long_description_hu: \"\",\n\n      net_price: parseFloat(p.price || 0),\n\n      gross_price: parseFloat(p.price || 0),\n\n      currency_code: \"HUF\",\n\n      stock_1: stock1,\n\n      stock_2: stock2,\n\n      stock_3: stock3,\n\n      stock_4: stock4,\n\n      total_stock:\n        stock1 +\n        stock2 +\n        stock3 +\n        stock4,\n\n      manufacturer: String(\n        p.manufacturer?.href || \"\"\n      ),\n\n      primary_product_image: String(\n        p.allImages?.mainImage || \"\"\n      ),\n\n      weight: parseFloat(p.weight || 0),\n\n      width: parseFloat(p.width || 0),\n\n      height: parseFloat(p.height || 0),\n\n      length: parseFloat(p.length || 0),\n\n      status: String(p.status || \"\"),\n\n      orderable_product: String(\n        p.orderable || \"\"\n      ),\n\n      reduce_stock: String(\n        p.subtractStock || \"\"\n      ),\n\n      measurement_unit_hu: \"\",\n\n      date_created: p.dateCreated || null,\n\n      date_updated: p.dateUpdated || null,\n\n      inserted_at: syncTime,\n\n      last_synced_at: syncTime,\n\n      is_active: true,\n\n      sync_run_id: syncRunId,\n\n      sync_status: \"success\"\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -784
+      ],
+      "id": "e8a42052-04e4-407f-8632-7cb89efc896d",
+      "name": "process_page"
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT COUNT(*) AS total_rows\nFROM `bearings-hu-website.shoprenter.products_v2`;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        -192,
+        -880
+      ],
+      "id": "68640cdc-15eb-4462-9253-7ea8a5ab911c",
+      "name": "total_num_rows",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "TRUNCATE TABLE `bearings-hu-website.shoprenter.products_staging`;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        -432,
+        -880
+      ],
+      "id": "c3c24651-ef59-40ee-a1f2-88ea246a6fad",
+      "name": "deleted_all_rows",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT COUNT(*) AS total_products\nFROM `bearings-hu-website.shoprenter.products_v2`;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        736,
+        -592
+      ],
+      "id": "460668f0-b8d2-4254-9576-bd38d5ea63ad",
+      "name": "merge_test_query",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT\n  sr_product_id,\n  COUNT(*) AS duplicate_count\nFROM `bearings-hu-website.shoprenter.products_v2`\nGROUP BY sr_product_id\nHAVING COUNT(*) > 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        -592
+      ],
+      "id": "f59abee4-e017-41dd-a99e-6629351e9cce",
+      "name": "validate_no_duplicates",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT\n  sr_product_id,\n  inserted_at,\n  last_synced_at,\n  sync_run_id\nFROM `bearings-hu-website.shoprenter.products_v2`\nORDER BY last_synced_at DESC\nLIMIT 20;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        -592
+      ],
+      "id": "155c90f7-5da6-481a-9ab4-2f28915d53df",
+      "name": "validate_sync_metadata",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "SELECT *\nFROM `bearings-hu-website.shoprenter.products_staging`;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        -640
+      ],
+      "id": "e3391637-3e11-46b3-9138-dbe1a1ecef76",
+      "name": "get_products1",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=http://bearings.api.shoprenter.hu/products?limit=1&page={{ $json.current_page }}&full=1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1120,
+        -944
+      ],
+      "id": "28707630-1af3-484a-b18b-eee939880abe",
+      "name": "get_products_test",
+      "retryOnFail": true,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "Ki4OacSizfZYmxnQ",
+          "name": "Shoprenter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=http://bearings.api.shoprenter.hu/manufacturerDescriptions?manufacturerId=bWFudWZhY3R1cmVyLW1hbnVmYWN0dXJlcl9pZD04&page=0&limit=25",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchInterval": "="
+            }
+          },
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -880,
+        -752
+      ],
+      "id": "cff6145d-6434-4013-8fc3-19c580308862",
+      "name": "get_products_description",
+      "retryOnFail": true,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "Ki4OacSizfZYmxnQ",
+          "name": "Shoprenter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const syncRunId = `FULL_IMPORT_${Date.now()}`;\n\nreturn [{\n  json: {\n    sync_run_id: syncRunId,\n    current_page: $json.current_page || 1,\n    limit: 200,\n    started_at: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        64
+      ],
+      "id": "fa3196f9-ec9d-414a-896f-15ec6df428cb",
+      "name": "sync_metadata1"
+    },
+    {
+      "parameters": {
+        "url": "=http://bearings.api.shoprenter.hu/products?limit=200&page={{ $json.current_page }}&full=1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        64
+      ],
+      "id": "4cbbdbe2-18c8-4c50-81a7-d3cd19003a2e",
+      "name": "get_products2",
+      "retryOnFail": true,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "Ki4OacSizfZYmxnQ",
+          "name": "Shoprenter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "468pbF9uENA1LrPM4Hk8K",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/468pbF9uENA1LrPM4Hk8K",
+          "cachedResultName": "transform_pipeline"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        64
+      ],
+      "id": "771581e9-f83c-466b-a675-36dbda5e6698",
+      "name": "Full Import1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5df922a0-0d32-42c5-9059-65d77e287c90",
+              "leftValue": "={{ $('get_products2').first().json.page }}",
+              "rightValue": "={{ $('get_products2').first().json.pageCount - 1 }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        912,
+        64
+      ],
+      "id": "95882ba5-b916-4a13-bf84-7a61fae6ebac",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f57f031c-91b3-4285-82d1-a6bc074de0de",
+              "name": "current_page",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        64
+      ],
+      "id": "ded1eebb-e85a-4344-96a9-7e7a0ab0e38d",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "var current_page = $('sync_metadata1').first().json.current_page;\ncurrent_page += 1;\nreturn {\n  json: {\n    \"current_page\": current_page\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        -144
+      ],
+      "id": "e6cc18fa-6477-4a1a-911e-6f5ee3b14973",
+      "name": "increment_page1"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1136,
+        -144
+      ],
+      "id": "966bfa53-77cf-4998-9fa5-34253108eee1",
+      "name": "Wait1",
+      "webhookId": "7f1405bb-8001-4493-89f4-6a431cd1961b"
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "MERGE `bearings-hu-website.shoprenter.products_v2` T\n\nUSING (\n\n  SELECT *\n  FROM (\n\n    SELECT *,\n           ROW_NUMBER() OVER (\n             PARTITION BY sr_product_id\n             ORDER BY inserted_at DESC\n           ) AS rn\n\n    FROM `bearings-hu-website.shoprenter.products_staging`\n\n  )\n\n  WHERE rn = 1\n\n) S\n\nON T.sr_product_id = S.sr_product_id\n\nWHEN MATCHED THEN\nUPDATE SET\n\n  T.inner_id = S.inner_id,\n  T.sku = S.sku,\n  T.product_name_hu = S.product_name_hu,\n  T.short_description_hu = S.short_description_hu,\n  T.long_description_hu = S.long_description_hu,\n\n  T.net_price = S.net_price,\n  T.gross_price = S.gross_price,\n  T.currency_code = S.currency_code,\n\n  T.stock_1 = S.stock_1,\n  T.stock_2 = S.stock_2,\n  T.stock_3 = S.stock_3,\n  T.stock_4 = S.stock_4,\n  T.total_stock = S.total_stock,\n\n  T.manufacturer = S.manufacturer,\n  T.primary_product_image = S.primary_product_image,\n\n  T.weight = S.weight,\n  T.width = S.width,\n  T.height = S.height,\n  T.length = S.length,\n\n  T.status = S.status,\n  T.orderable_product = S.orderable_product,\n  T.reduce_stock = S.reduce_stock,\n\n  T.measurement_unit_hu = S.measurement_unit_hu,\n\n  T.date_created = S.date_created,\n  T.date_updated = S.date_updated,\n\n  T.last_synced_at = CURRENT_TIMESTAMP(),\n\n  T.is_active = S.is_active,\n\n  T.sync_run_id = S.sync_run_id,\n  T.sync_status = S.sync_status\n\nWHEN NOT MATCHED THEN\n\nINSERT (\n  sr_product_id,\n  inner_id,\n  sku,\n  product_name_hu,\n  short_description_hu,\n  long_description_hu,\n\n  net_price,\n  gross_price,\n  currency_code,\n\n  stock_1,\n  stock_2,\n  stock_3,\n  stock_4,\n  total_stock,\n\n  manufacturer,\n  primary_product_image,\n\n  weight,\n  width,\n  height,\n  length,\n\n  status,\n  orderable_product,\n  reduce_stock,\n\n  measurement_unit_hu,\n\n  date_created,\n  date_updated,\n\n  inserted_at,\n  last_synced_at,\n\n  is_active,\n\n  sync_run_id,\n  sync_status\n\n)\n\nVALUES (\n\n  S.sr_product_id,\n  S.inner_id,\n  S.sku,\n  S.product_name_hu,\n  S.short_description_hu,\n  S.long_description_hu,\n\n  S.net_price,\n  S.gross_price,\n  S.currency_code,\n\n  S.stock_1,\n  S.stock_2,\n  S.stock_3,\n  S.stock_4,\n  S.total_stock,\n\n  S.manufacturer,\n  S.primary_product_image,\n\n  S.weight,\n  S.width,\n  S.height,\n  S.length,\n\n  S.status,\n  S.orderable_product,\n  S.reduce_stock,\n\n  S.measurement_unit_hu,\n\n  S.date_created,\n  S.date_updated,\n\n  S.inserted_at,\n  CURRENT_TIMESTAMP(),\n\n  S.is_active,\n\n  S.sync_run_id,\n  S.sync_status\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        256
+      ],
+      "id": "efb009e1-22ba-4968-9409-6998add6ff6d",
+      "name": "merge_query1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "TRUNCATE TABLE `bearings-hu-website.shoprenter.products_staging`;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        1744,
+        256
+      ],
+      "id": "be88ae41-c398-4271-9b2b-c16d67cae53e",
+      "name": "clear_staging_table1",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "sqlQuery": "UPDATE `bearings-hu-website.shoprenter.products_v2`\nSET\n  is_active = FALSE,\n  sync_status = 'soft_deleted',\n  last_synced_at = CURRENT_TIMESTAMP()\n\nWHERE sr_product_id NOT IN (\n\n  SELECT DISTINCT sr_product_id\n  FROM `bearings-hu-website.shoprenter.products_staging`\n\n)\nAND is_active = TRUE;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        256
+      ],
+      "id": "c876d796-35b4-4cad-8811-dc5a4640c104",
+      "name": "soft_delete_query1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "YgdLk0QNK0or4wJ0kDSqf",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/YgdLk0QNK0or4wJ0kDSqf",
+          "cachedResultName": "set_product_name"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        336,
+        64
+      ],
+      "id": "601c0528-3694-4542-a330-49e7499eb37d",
+      "name": "Call 'set_product_name'"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nvar product_list = new Array();\nfor (const item of $input.all()) {\n  product_list.push(item.json);\n}\n\nreturn product_list;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        64
+      ],
+      "id": "75222f1d-5c46-488b-b705-49c8656b9d7a",
+      "name": "consolidating_products"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1392,
+        256
+      ],
+      "id": "638de2f9-760e-4930-aea1-90f7723ded74",
+      "name": "Wait",
+      "webhookId": "b72c716d-283b-4e6b-be1d-67198e469aec"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "process_page": {
+      "main": [
+        []
+      ]
+    },
+    "validate_no_duplicates": {
+      "main": [
+        []
+      ]
+    },
+    "get_products_test": {
+      "main": [
+        []
+      ]
+    },
+    "sync_metadata1": {
+      "main": [
+        [
+          {
+            "node": "get_products2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_products2": {
+      "main": [
+        [
+          {
+            "node": "Call 'set_product_name'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Full Import1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "soft_delete_query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "sync_metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "increment_page1": {
+      "main": [
+        [
+          {
+            "node": "sync_metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "increment_page1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "merge_query1": {
+      "main": [
+        [
+          {
+            "node": "clear_staging_table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "soft_delete_query1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'set_product_name'": {
+      "main": [
+        [
+          {
+            "node": "consolidating_products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidating_products": {
+      "main": [
+        [
+          {
+            "node": "Full Import1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "merge_query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "676cb2be-e619-4263-bf27-de382a347f0d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "644a4d505e037bae7dda68fe55c5b6e832d83e509a969c6ef79cae3766d8d799"
+  },
+  "id": "QOjceQM4VOrYaNPNOOfVz",
+  "tags": []
+}

@@ -1,0 +1,107 @@
+{
+  "name": "transform_pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7530a0e0-ea49-44f6-b8d3-5cfb8acd9684",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "const syncRunId = `SYNC_${Date.now()}`;\nconst syncTime = new Date().toISOString();\n\nconst transformedProducts = [];\nconst failedProducts = [];\n\nfor (const item of items) {\n\n  const p = item.json;\n\n  try {\n\n    if (!p.id) {\n      throw new Error(\"Missing product id\");\n    }\n\n    const stock1 = parseFloat(p.stock1 || 0);\n    const stock2 = parseFloat(p.stock2 || 0);\n    const stock3 = parseFloat(p.stock3 || 0);\n    const stock4 = parseFloat(p.stock4 || 0);\n\n    const transformed = {\n\n      sr_product_id: String(p.id || \"\"),\n\n      inner_id: String(p.innerId || \"\"),\n\n      product_name_hu: String(\n        p.name || \"\"\n      ),\n\n      short_description_hu: String(\n        p.short_description || \"\"\n      ),\n\n      long_description_hu: String(\n        p.long_description || \"\"\n      ),\n\n      net_price: parseFloat(\n        p.price || 0\n      ),\n\n      currency_code: \"HUF\",\n\n      stock_1: stock1,\n\n      stock_2: stock2,\n\n      stock_3: stock3,\n\n      stock_4: stock4,\n\n      total_stock:\n        stock1 +\n        stock2 +\n        stock3 +\n        stock4,\n\n      manufacturer: String(\n        p.manufacturer || \"\"\n      ),\n\n      primary_product_image: String(\n        p.allImages?.mainImage || \"\"\n      ),\n\n      weight: parseFloat(\n        p.weight || 0\n      ),\n\n      width: parseFloat(\n        p.width || 0\n      ),\n\n      height: parseFloat(\n        p.height || 0\n      ),\n\n      length: parseFloat(\n        p.length || 0\n      ),\n\n      status: String(\n        p.status || \"\"\n      ),\n\n      orderable_product: String(\n        p.orderable || \"\"\n      ),\n\n      reduce_stock: String(\n        p.subtractStock || \"\"\n      ),\n\n      measurement_unit_hu: String(\n        p.measurement_unit_hu || \"\"\n      ),\n\n      date_created:\n        p.dateCreated || null,\n\n      date_updated:\n        p.dateUpdated || null,\n\n      inserted_at: syncTime,\n\n      last_synced_at: syncTime,\n\n      is_active: true,\n\n      sync_run_id: syncRunId,\n\n      sync_status: \"success\"\n    };\n\n    transformedProducts.push({\n      json: transformed\n    });\n\n  } catch (error) {\n\n    failedProducts.push({\n      json: {\n\n        failed_at: syncTime,\n\n        sync_run_id: syncRunId,\n\n        sr_product_id: String(\n          p.id || \"\"\n        ),\n\n        error_message: error.message,\n\n        raw_payload: JSON.stringify(p)\n      }\n    });\n\n  }\n}\n\nreturn transformedProducts;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "afa5da93-4b0c-4f2d-8716-3d3fb6c9c80b",
+      "name": "transform_code"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "projectId": {
+          "__rl": true,
+          "value": "bearings-hu-website",
+          "mode": "list",
+          "cachedResultName": "bearings-hu-website",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=bearings-hu-website"
+        },
+        "datasetId": {
+          "__rl": true,
+          "value": "shoprenter",
+          "mode": "list",
+          "cachedResultName": "shoprenter"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "products_staging",
+          "mode": "list",
+          "cachedResultName": "products_staging"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4b02a2f6-4d0c-4212-bbcd-2d062d08a845",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Io4IZN7jcluCmZme",
+          "name": "Google BigQuery account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "transform_code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transform_code": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "9b3bca83-da54-4b4b-94a3-dd65769164af",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "644a4d505e037bae7dda68fe55c5b6e832d83e509a969c6ef79cae3766d8d799"
+  },
+  "id": "468pbF9uENA1LrPM4Hk8K",
+  "tags": []
+}
